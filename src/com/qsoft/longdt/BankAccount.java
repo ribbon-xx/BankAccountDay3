@@ -1,9 +1,12 @@
 package com.qsoft.longdt;
 
+import java.util.Calendar;
+
 public class BankAccount {
 
 	private BankAccountDAO baDAO;
 	private TransactionDAO tDAO;
+	private Calendar cal;
 
 	public void setBaDAO(BankAccountDAO baDAO) {
 		this.baDAO = baDAO;
@@ -13,11 +16,15 @@ public class BankAccount {
 		this.tDAO = tDAO;
 	}
 
+	public void setCal(Calendar cal) {
+		this.cal = cal;
+	}
+
 	public BankAccountDTO openAccount(String accountNumber) {
 		BankAccountDTO baDTO = new BankAccountDTO();
 		baDTO.setAccountNumber(accountNumber);
 		baDTO.setBalance(0l);
-		baDTO.setTimeStamp(System.currentTimeMillis());
+		baDTO.setTimeStamp(cal.getTimeInMillis());
 		baDAO.doCreate(baDTO);
 		return baDTO;
 	}

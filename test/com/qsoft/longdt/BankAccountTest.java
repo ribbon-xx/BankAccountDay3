@@ -32,6 +32,8 @@ public class BankAccountTest extends TestCase {
 		ba.setTDAO(tDAO);
 		trans.setTransactionDao(tDAO);
 		mockCal = mock(Calendar.class);
+		ba.setCal(mockCal);
+		trans.setCal(mockCal);
 		accountNumber = "0012973939";
 	}
 
@@ -76,15 +78,13 @@ public class BankAccountTest extends TestCase {
 	}
 
 	public void testDepositSaveToDBWithTimeStamp() {
-
 		trans.createTransaction(accountNumber, 100, "de 100k");
-
 		long timeStamp = System.currentTimeMillis();
 		when(mockCal.getTimeInMillis()).thenReturn(timeStamp);
-
 		ArgumentCaptor<TransactionDTO> argumentTransaction = ArgumentCaptor
 				.forClass(TransactionDTO.class);
 		verify(tDAO, times(1)).doUpdate(argumentTransaction.capture());
+
 		assertEquals(accountNumber, argumentTransaction.getValue()
 				.getAccountNumber());
 		assertEquals(100, argumentTransaction.getValue().getAmount(), 0.01);
@@ -136,11 +136,11 @@ public class BankAccountTest extends TestCase {
 	}
 
 	public void testSaveTimestampWhenOpenAccount() {
+		Long timeStamp = System.currentTimeMillis();
+		when(mockCal.getTimeInMillis()).thenReturn(timeStamp);
 		ArgumentCaptor<BankAccountDTO> argBADTO = ArgumentCaptor
 				.forClass(BankAccountDTO.class);
 		ba.openAccount(accountNumber);
-		Long timeStamp = System.currentTimeMillis();
-		when(mockCal.getTimeInMillis()).thenReturn(timeStamp);
 		verify(baDAO, times(1)).doCreate(argBADTO.capture());
 		assertTrue(argBADTO.getValue().getTimeStamp() != null);
 		assertEquals(timeStamp, argBADTO.getValue().getTimeStamp());

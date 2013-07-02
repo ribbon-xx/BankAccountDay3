@@ -1,12 +1,18 @@
 package com.qsoft.longdt;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Transaction {
 	private TransactionDAO tDAO;
+	private Calendar cal;
 
 	public void setTransactionDao(TransactionDAO tDAO) {
 		this.tDAO = tDAO;
+	}
+
+	public void setCal(Calendar cal) {
+		this.cal = cal;
 	}
 
 	public TransactionDTO createTransaction(String accountNumber, long amount,

@@ -14,8 +14,19 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <uses-library android:name="android.test.runner" />
+        <activity
+            android:name="com.qsoft.longdt.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppBaseTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
     </application>
-    
+
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.qsoft.longdt" />
